@@ -13,11 +13,16 @@ class FamAIDataBase:
     async def create_user(self, user: AccountData):
         return await self.usrDB.insert_one(user.model_dump())
 
+
     async def get_user(self, address: str):
         return await self.usrDB.find_one({"address": address}, {'_id': 0})
 
-    async def create_profile(self, profile: ProfileData):
-        return await self.prfDB.insert_one(profile.model_dump())
+    async def create_profile(self, profile_data: ProfileData):
+
+        return await self.prfDB.insert_one(profile_data.model_dump())
+
+    async def delete_profile(self, address: str, prfid: str):
+        await self.prfDB.delete_one({'address': address, 'prfid': prfid})
 
     async def get_profiles(self, address: str):
-        return await self.prfDB.find({'address', address}, {'_id': 0}).to_list(None)
+        return await self.prfDB.find({'address': address}, {'_id': 0}).to_list(None)
