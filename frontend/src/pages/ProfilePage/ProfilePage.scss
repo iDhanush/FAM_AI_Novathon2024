@@ -1,0 +1,28 @@
+.profile-page{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-sec{
+    width: 100%;
+    padding: 0px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .name{
+        font-size: 28px;
+    }
+}
+
+.grp{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.avatar{
+    width: 100px;
+    height: 100px;
+}
