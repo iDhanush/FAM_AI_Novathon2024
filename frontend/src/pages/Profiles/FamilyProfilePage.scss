@@ -1,0 +1,56 @@
+.family-page{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--ui-background);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.fam-profiles{
+    width: 100%;
+    padding: 0px 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.bottom-bar{
+    position: absolute;
+    bottom: 60px;
+    padding: 0px 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.add-profile-btn{
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 20px 24px;
+    border-radius: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--ui-dark-bg);
+    color: #fff;
+    text-decoration: none;
+}
+
+.chat-btn{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border: 2px solid #ECECEC;
+    border-radius: 16px;
+    cursor: pointer;
+}
