@@ -32,8 +32,8 @@ const FamilyProfile = () => {
               20/09/24
             </div>
             <div className="data-tabs">
-                <div className="tab">Male</div>
-                <div className="tab">B+ve</div>
+                <div className="tabb">Male</div>
+                <div className="tabb">B+ve</div>
             </div>
           </div>
           <img src={BOY} className="avathar">
@@ -62,8 +62,8 @@ const FamilyProfile = () => {
               20/09/24
             </div>
             <div className="data-tabs">
-                <div className="tab">Female</div>
-                <div className="tab">O+ve</div>
+                <div className="tabb">Female</div>
+                <div className="tabb">O+ve</div>
             </div>
           </div>
           <img src={GIRL} className="avathar">

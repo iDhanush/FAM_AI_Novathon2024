@@ -27,6 +27,7 @@
   gap: 40px;
   border-radius: 20px;
   cursor: pointer;
+  transition: all .3s ease-in-out;
 }
 .left-profile-box{
     display: flex;
@@ -51,7 +52,7 @@
   gap: 14px;
 }
 
-.tab{
+.tabb{
     padding: 10px 14px;
     display: flex;
     align-items: center;
@@ -88,11 +89,17 @@
   background: var(--ui-dark-bg);
   color: #fff;
   text-decoration: none;
+  transition: all .3s ease-in-out;
 }
 
 .add-profile-btn:hover{
     scale: 0.98;
-    transition: all .4s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.profile-card:hover{
+    scale: 0.98;
+    transition: all .3s ease-in-out;
 }
 
 .chat-btn {
