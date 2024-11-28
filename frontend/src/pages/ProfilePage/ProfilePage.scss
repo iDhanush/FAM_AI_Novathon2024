@@ -1,28 +1,29 @@
-.profile-page{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.profile-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-.profile-sec{
-    width: 100%;
-    padding: 20px 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.profile-sec {
+  max-width: 800px;
+  width: 800px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-    .name{
-        font-size: 28px;
-    }
+  .name {
+    font-size: 28px;
+  }
 }
 
-.grp{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.grp {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-.avatar{
-    width: 100px;
-    height: 100px;
+.avatar {
+  width: 100px;
+  height: 100px;
 }

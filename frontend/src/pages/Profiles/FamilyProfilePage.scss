@@ -20,7 +20,9 @@ a {
   flex-wrap: wrap;
   gap: 20px;
 }
-
+.profile-card-wrapper {
+  position: relative;
+}
 .profile-card {
   display: flex;
   align-items: center;
@@ -117,4 +119,31 @@ a {
   border-radius: 16px;
   cursor: pointer;
   background-color: var(--ui-background);
+}
+
+.delete-btn {
+  position: absolute;
+  right: -10px;
+  top: -20px;
+  background: var(--ui-gray-bg);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 2000;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+  scale: 0;
+}
+
+.profile-card-wrapper:hover .delete-btn {
+  scale: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.delete-btn:hover {
+  scale: 1.1;
+  transition: all 0.3s ease-in-out;
 }

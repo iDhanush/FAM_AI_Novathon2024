@@ -108,3 +108,33 @@ export const getProfileData = async (wallet,prfid) => {
     console.error("profiles fetch error:", error);
   }
 };
+
+
+//delete profile
+export const deleteProfile = async (wallet, prfid) => {
+    try {
+      const response = await fetch(`${baseUrl}/user/delete_profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer your-auth-token",
+          "ngrok-skip-browser-warning": "69420",
+          address: wallet,
+        },
+        body: JSON.stringify({
+          prfid:prfid
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.msg || "Acc failed to create");
+      }
+  
+      const result = await response.json();
+      console.log("profile deleted:", result);
+      return result;
+    } catch (error) {
+      console.error("deletion error:", error);
+    }
+  };
