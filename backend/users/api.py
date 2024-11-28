@@ -1,6 +1,6 @@
 from auth.auth import get_address
 from global_vars import Var
-from fastapi import APIRouter, Header, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from schemas import AccountData, ProfileData, ProfileUID
 from utils import invoke_uid
 
