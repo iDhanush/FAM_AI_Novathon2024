@@ -7,6 +7,7 @@ import GIRL from "../../assets/images/female.svg";
 import Form from "../../components/form/Form";
 import { AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
+import ChatComponent from "../../components/ChatUI/Chatui";
 
 const FamilyProfile = () => {
   const [popup, setPopup] = useState(false);
@@ -98,6 +99,7 @@ const FamilyProfile = () => {
         </div>
       </div>
       <AnimatePresence>{popup && <Form popup={popup} setPopup={setPopup} />}</AnimatePresence>
+      {/* <ChatComponent/> */}
     </div>
   );
 };
