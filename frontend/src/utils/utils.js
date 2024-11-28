@@ -82,3 +82,29 @@ export const getProfiles = async (wallet) => {
     console.error("profiles fetch error:", error);
   }
 };
+
+// get profile data
+export const getProfileData = async (wallet,prfid) => {
+  try {
+    const response = await fetch(`${baseUrl}/user/get_profile?prfid=${prfid}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer your-auth-token",
+        "ngrok-skip-browser-warning": "69420",
+        address: wallet,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.msg || "can't get profiles");
+    }
+
+    const result = await response.json();
+    console.log("profiles done:", result);
+    return result;
+  } catch (error) {
+    console.error("profiles fetch error:", error);
+  }
+};

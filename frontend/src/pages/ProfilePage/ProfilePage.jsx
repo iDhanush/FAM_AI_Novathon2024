@@ -2,19 +2,40 @@ import "./ProfilePage.scss";
 
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
-import ImageUploader from "../../components/ImageUpload/ImageUpload";
+
+import { useParams } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import ChatComponent from "../../components/ChatUI/Chatui";
 import toast from "react-hot-toast";
 import { baseUrl } from "../../constants";
+import { getProfileData } from "../../utils/utils";
+import { useStore } from "../../context/StoreContext";
 
 const ProfilePage = () => {
+  const { wallet, setWallet } = useStore();
+  const { uid } = useParams();
+  const [profile, setProfile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const [chatPopup, setChatPopup] = useState(false);
+
+  //get profile
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const result = await getProfileData(wallet, uid);
+        setProfile(result);
+        console.log(result);
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+      }
+    };
+
+    fetchProfile();
+  }, [wallet]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -61,8 +82,12 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <div className="profile-sec">
-        <img src={BOY} alt="" className="avatar" />
-        <div className="name">John Doe</div>
+        {profile?.gender == "Male" ? (
+          <img src={BOY} className="avatar"></img>
+        ) : (
+          <img src={GIRL} className="avatar"></img>
+        )}
+        <div className="name">{profile?.name}</div>
         <div className="grp">
           <div className="dob">
             <svg
@@ -80,11 +105,11 @@ const ProfilePage = () => {
                 d="M13.333 19.458H6.667c-3.042 0-4.792-1.75-4.792-4.791V7.583c0-3.041 1.75-4.791 4.792-4.791h6.666c3.042 0 4.792 1.75 4.792 4.791v7.084c0 3.041-1.75 4.791-4.792 4.791M6.667 4.042c-2.384 0-3.542 1.158-3.542 3.541v7.084c0 2.383 1.158 3.541 3.542 3.541h6.666c2.384 0 3.542-1.158 3.542-3.541V7.583c0-2.383-1.158-3.541-3.542-3.541z"
               />
             </svg>
-            20/09/24
+            {profile?.dob}
           </div>
           <div className="data-tabs">
-            <div className="tabb">Male</div>
-            <div className="tabb">B+ve</div>
+            <div className="tabb">{profile?.gender}</div>
+            <div className="tabb">{profile?.blood}</div>
           </div>
         </div>
       </div>
