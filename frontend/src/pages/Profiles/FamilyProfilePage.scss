@@ -90,6 +90,11 @@
   text-decoration: none;
 }
 
+.add-profile-btn:hover{
+    scale: 0.98;
+    transition: all .4s ease-in-out;
+}
+
 .chat-btn {
   width: 60px;
   height: 60px;
@@ -100,4 +105,5 @@
   border: 2px solid #ececec;
   border-radius: 16px;
   cursor: pointer;
+  background-color: var(--ui-background);
 }
