@@ -25,6 +25,6 @@ async def create_profile(account_data: ProfileData):
     return {'success': True}
 
 
-@user_router.post("/get_profiles")
-async def get_profiles(account_data: AccountData):
-    return await Var.db.get_profiles(account_data)
+@user_router.post("/get_profiles/{address}")
+async def get_profiles(address: str):
+    return await Var.db.get_profiles(address)
