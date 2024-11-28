@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import './ImageUpload.scss';
 
 const ImageUploader = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -46,7 +47,7 @@ const ImageUploader = () => {
   };
 
   return (
-    <div>
+    <div className='uploader-wrapper'>
       <input 
         type="file" 
         ref={fileInputRef}
@@ -54,10 +55,10 @@ const ImageUploader = () => {
         accept="image/*"
         style={{ display: 'none' }}
       />
-      <button onClick={triggerFileInput}>Select Image</button>
+      {/* <button onClick={triggerFileInput}>Select Image</button> */}
       
       {previewImage && (
-        <div>
+        <div className='pre-img'>
           <img 
             src={previewImage} 
             alt="Preview" 
@@ -66,9 +67,9 @@ const ImageUploader = () => {
         </div>
       )}
       
-      {selectedImage && (
+      {/* {selectedImage && (
         <button onClick={uploadImage}>Upload Image</button>
-      )}
+      )} */}
     </div>
   );
 };

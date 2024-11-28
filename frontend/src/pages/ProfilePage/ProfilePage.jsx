@@ -1,11 +1,55 @@
-import React from "react";
 import "./ProfilePage.scss";
 
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
 import ImageUploader from "../../components/ImageUpload/ImageUpload";
+import React, { useState, useRef } from "react";
+import { motion } from "motion/react";
 
 const ProfilePage = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadImage = async () => {
+    if (!selectedImage) return;
+
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const result = await response.json();
+      console.log("Upload successful:", result);
+
+      // Reset after successful upload
+      setSelectedImage(null);
+      setPreviewImage(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
   return (
     <div className="profile-page">
       <div className="profile-sec">
@@ -36,8 +80,42 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+      <div className="uploader-wrapper">
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImageUpload}
+          accept="image/*"
+          style={{ display: "none" }}
+        />
+        {previewImage && (
+          <motion.div
+            className="pre-img"
+            initial={{ scale: 0, rotate: "0deg" }}
+            animate={{ scale: 1, rotate: "0deg" }}
+            transition={{
+              duration: 0.5,
+            }}
+          >
+            <img
+              src={previewImage}
+              alt="Preview"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </motion.div>
+        )}
+      </div>
       <div className="bottom-bar">
-        <div className="add-profile-btn" onClick={() => console.log("upload")}>
+        <div
+          className="add-profile-btn"
+          onClick={() => {
+            if (selectedImage) {
+              uploadImage();
+            } else {
+              triggerFileInput();
+            }
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={24}
@@ -57,7 +135,7 @@ const ProfilePage = () => {
               d="M15 22.75H9c-5.43 0-7.75-2.32-7.75-7.75v-3c0-4.69 1.74-7.04 5.64-7.61.42-.06.79.22.85.63s-.22.79-.63.85C3.97 6.33 2.75 8.05 2.75 12v3c0 4.61 1.64 6.25 6.25 6.25h6c4.61 0 6.25-1.64 6.25-6.25v-3c0-3.95-1.22-5.67-4.36-6.13a.747.747 0 0 1-.63-.85c.06-.41.44-.69.85-.63 3.9.57 5.64 2.92 5.64 7.61v3c0 5.43-2.32 7.75-7.75 7.75"
             />
           </svg>
-          Upload
+          {selectedImage ? "Upload" : "Select Document"}
         </div>
         <div className="chat-btn">
           <svg
@@ -81,7 +159,6 @@ const ProfilePage = () => {
           </svg>
         </div>
       </div>
-      {/* <ImageUploader /> */}
     </div>
   );
 };
