@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./Form.scss";
+import { useStore } from "../../context/StoreContext";
 
 import { motion } from "motion/react";
-const Form = ({popup,setPopup}) => {
+import { createIndiProfile } from "../../utils/utils";
+const Form = ({ popup, setPopup }) => {
+  const { wallet, setWallet } = useStore();
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -20,36 +23,15 @@ const Form = ({popup,setPopup}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(
-        "https://your-backend-endpoint.com/api/form",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-        alert("Form submitted successfully!");
-        console.log(result);
-      } else {
-        alert("Failed to submit form.");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("An error occurred. Please try again.");
+    const result = await createIndiProfile(wallet, formData);
+    if (result) {
+      setPopup(!popup);
     }
   };
 
   return (
     <motion.div className="form-page">
-      <div className="close-btn"
-      onClick={()=>setPopup(!popup)}
-      >
+      <div className="close-btn" onClick={() => setPopup(!popup)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width={67}
