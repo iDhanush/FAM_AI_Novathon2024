@@ -6,6 +6,7 @@ import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
 import Form from "../../components/form/Form";
 import { AnimatePresence } from "motion/react";
+import { Link } from "react-router-dom";
 
 const FamilyProfile = () => {
   const [popup, setPopup] = useState(false);
@@ -13,7 +14,7 @@ const FamilyProfile = () => {
     <div className="family-page">
       <Nav />
       <div className="fam-profiles">
-        <div className="profile-card">
+        <Link to='/fam/id' className="profile-card">
           <div className="left-profile-box">
             <div className="name">John doe</div>
             <div className="dob">
@@ -40,7 +41,7 @@ const FamilyProfile = () => {
             </div>
           </div>
           <img src={BOY} className="avathar"></img>
-        </div>
+        </Link>
         <div className="profile-card">
           <div className="left-profile-box">
             <div className="name">Angel</div>
