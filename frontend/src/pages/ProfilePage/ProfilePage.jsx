@@ -3,7 +3,7 @@ import "./ProfilePage.scss";
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
 import ImageUploader from "../../components/ImageUpload/ImageUpload";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import ChatComponent from "../../components/ChatUI/Chatui";
 import toast from "react-hot-toast";
@@ -41,7 +41,7 @@ const ProfilePage = () => {
       }
 
       const result = await response.json();
-      toast.success('Successfully Uploaded!')
+      toast.success("Successfully Uploaded!");
       console.log("Upload successful:", result);
 
       // Reset after successful upload
@@ -57,6 +57,7 @@ const ProfilePage = () => {
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };
+
   return (
     <div className="profile-page">
       <div className="profile-sec">
@@ -144,9 +145,7 @@ const ProfilePage = () => {
           </svg>
           {selectedImage ? "Upload" : "Select Document"}
         </div>
-        <div className="chat-btn"
-        onClick={()=>setChatPopup(!chatPopup)}
-        >
+        <div className="chat-btn" onClick={() => setChatPopup(!chatPopup)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={24}
