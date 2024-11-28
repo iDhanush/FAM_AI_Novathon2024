@@ -6,6 +6,7 @@ import ImageUploader from "../../components/ImageUpload/ImageUpload";
 import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
 import ChatComponent from "../../components/ChatUI/Chatui";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,6 +40,7 @@ const ProfilePage = () => {
       }
 
       const result = await response.json();
+      toast.success('Successfully Uploaded!')
       console.log("Upload successful:", result);
 
       // Reset after successful upload
@@ -47,6 +49,7 @@ const ProfilePage = () => {
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.error("Upload error:", error);
+      toast.error("I can't upload it 🙂");
     }
   };
 

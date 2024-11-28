@@ -35,7 +35,7 @@ const Nav = () => {
   return (
     <div className="nav-container">
       <div className="nav-left-container">
-        <div className="logo">
+        <Link to='/' className="logo">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={32}
@@ -55,7 +55,7 @@ const Nav = () => {
             </defs>
           </svg>
           Fam.ai
-        </div>
+        </Link>
       </div>
       <div className="nav-right-container">
         <button onClick={() => requestAccount()} className="login-btn">
