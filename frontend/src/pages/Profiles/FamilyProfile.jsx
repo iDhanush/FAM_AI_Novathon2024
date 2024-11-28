@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./FamilyProfilePage.scss";
 import Nav from "../../components/Nav/Nav";
 
-import BOY from '../../assets/images/male.svg'
-import GIRL from '../../assets/images/female.svg'
+import BOY from "../../assets/images/male.svg";
+import GIRL from "../../assets/images/female.svg";
+import Form from "../../components/form/Form";
+import { AnimatePresence } from "motion/react";
 
 const FamilyProfile = () => {
+  const [popup, setPopup] = useState(false);
   return (
     <div className="family-page">
       <Nav />
@@ -32,13 +35,11 @@ const FamilyProfile = () => {
               20/09/24
             </div>
             <div className="data-tabs">
-                <div className="tabb">Male</div>
-                <div className="tabb">B+ve</div>
+              <div className="tabb">Male</div>
+              <div className="tabb">B+ve</div>
             </div>
           </div>
-          <img src={BOY} className="avathar">
-
-          </img>
+          <img src={BOY} className="avathar"></img>
         </div>
         <div className="profile-card">
           <div className="left-profile-box">
@@ -62,17 +63,17 @@ const FamilyProfile = () => {
               20/09/24
             </div>
             <div className="data-tabs">
-                <div className="tabb">Female</div>
-                <div className="tabb">O+ve</div>
+              <div className="tabb">Female</div>
+              <div className="tabb">O+ve</div>
             </div>
           </div>
-          <img src={GIRL} className="avathar">
-
-          </img>
+          <img src={GIRL} className="avathar"></img>
         </div>
       </div>
       <div className="bottom-bar">
-        <div className="add-profile-btn">Add New Member</div>
+        <div className="add-profile-btn"
+        onClick={()=>setPopup(!popup)}
+        >Add New Member</div>
         <div className="chat-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -95,6 +96,7 @@ const FamilyProfile = () => {
           </svg>
         </div>
       </div>
+      <AnimatePresence>{popup && <Form popup={popup} setPopup={setPopup} />}</AnimatePresence>
     </div>
   );
 };
