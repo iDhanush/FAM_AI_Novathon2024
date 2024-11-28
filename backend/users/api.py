@@ -1,7 +1,6 @@
-from fastapi import APIRouter
-
 from global_vars import Var
-from schemas import AccountData
+from fastapi import APIRouter
+from schemas import AccountData, ProfileData
 
 user_router = APIRouter(prefix="/users", tags=["users"])
 
@@ -12,7 +11,20 @@ async def create_user(account_data: AccountData):
     return account_data
 
 
-@user_router.get("/get_account")
-async def get_user():
-    user = await Var.db.get_user()
+@user_router.get("/get_account/{address}")
+async def get_user(address: str):
+    print(address)
+    user = await Var.db.get_user(address)
+    print(user)
     return user
+
+
+@user_router.post("/create_profile")
+async def create_profile(account_data: ProfileData):
+    await Var.db.create_profile(account_data)
+    return {'success': True}
+
+
+@user_router.post("/get_profiles")
+async def get_profiles(account_data: AccountData):
+    return await Var.db.get_profiles(account_data)
