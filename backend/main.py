@@ -1,5 +1,5 @@
 from server import app
-from uploads.api import upload_router
+from docs.api import upload_router
 from users.api import user_router
 
 app.include_router(user_router)

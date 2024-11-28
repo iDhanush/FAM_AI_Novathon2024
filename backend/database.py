@@ -1,6 +1,6 @@
 import motor.motor_asyncio
 
-from schemas import AccountData, ProfileData
+from schemas import AccountData, ProfileData, DocData
 
 
 class FamAIDataBase:
@@ -9,16 +9,15 @@ class FamAIDataBase:
         self.db = self._client["FamAIDataBase"]
         self.usrDB = self.db["usrDB"]
         self.prfDB = self.db["prfDB"]
+        self.docDB = self.db["docDB"]
 
     async def create_user(self, user: AccountData):
         return await self.usrDB.insert_one(user.model_dump())
-
 
     async def get_user(self, address: str):
         return await self.usrDB.find_one({"address": address}, {'_id': 0})
 
     async def create_profile(self, profile_data: ProfileData):
-
         return await self.prfDB.insert_one(profile_data.model_dump())
 
     async def delete_profile(self, address: str, prfid: str):
@@ -26,3 +25,6 @@ class FamAIDataBase:
 
     async def get_profiles(self, address: str):
         return await self.prfDB.find({'address': address}, {'_id': 0}).to_list(None)
+
+    async def add_document(self, doc_data: DocData):
+        return await self.docDB.insert_one(doc_data.model_dump())
