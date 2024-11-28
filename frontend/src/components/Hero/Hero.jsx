@@ -9,7 +9,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useStore } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import { createAcc } from "../../utils/utils";
 
 const Hero = () => {
   const { wallet, setWallet } = useStore();
@@ -70,9 +71,12 @@ const Hero = () => {
     );
   });
 
-  const createProfile = () => {
+  const createProfile = async() => {
     if (wallet) {
-      navigate("/fam");
+      const result = await createAcc(wallet);
+      if (result) {
+        navigate("/fam");
+      }
     } else {
       requestAccount();
     }

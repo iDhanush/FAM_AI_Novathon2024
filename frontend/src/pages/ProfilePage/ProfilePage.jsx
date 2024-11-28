@@ -7,6 +7,7 @@ import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
 import ChatComponent from "../../components/ChatUI/Chatui";
 import toast from "react-hot-toast";
+import { baseUrl } from "../../constants";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -30,7 +31,7 @@ const ProfilePage = () => {
     formData.append("image", selectedImage);
 
     try {
-      const response = await fetch("/api/upload", {
+      const response = await fetch(`${baseUrl}`, {
         method: "POST",
         body: formData,
       });
