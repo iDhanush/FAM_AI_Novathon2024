@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./FamilyProfilePage.scss";
-import Nav from "../../components/Nav/Nav";
 
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
@@ -13,7 +12,6 @@ const FamilyProfile = () => {
   const [popup, setPopup] = useState(false);
   return (
     <div className="family-page">
-      <Nav />
       <div className="fam-profiles">
         <Link to='/fam/id' className="profile-card">
           <div className="left-profile-box">

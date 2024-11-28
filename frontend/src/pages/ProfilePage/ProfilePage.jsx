@@ -1,5 +1,4 @@
 import React from "react";
-import Nav from "../../components/Nav/Nav";
 import "./ProfilePage.scss";
 
 import BOY from "../../assets/images/male.svg";
@@ -9,7 +8,6 @@ import ImageUploader from "../../components/ImageUpload/ImageUpload";
 const ProfilePage = () => {
   return (
     <div className="profile-page">
-      <Nav />
       <div className="profile-sec">
         <img src={BOY} alt="" className="avatar" />
         <div className="name">John Doe</div>

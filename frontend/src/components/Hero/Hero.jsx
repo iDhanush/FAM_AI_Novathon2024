@@ -7,8 +7,40 @@ import TAB04 from "../../assets/images/tab04.png";
 //gsap
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useStore } from "../../context/StoreContext";
+import { useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
 
 const Hero = () => {
+  const { wallet, setWallet } = useStore();
+  const navigate = useNavigate();
+
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [provider, setProvider] = useState(null);
+
+  useEffect(() => {
+    if (window.ethereum) {
+      setProvider(window.ethereum);
+    }
+  }, []);
+
+  const requestAccount = async () => {
+    if (provider) {
+      try {
+        const accounts = await provider.request({
+          method: "eth_requestAccounts",
+        });
+        setWalletAddress(accounts[0]);
+        setWallet(accounts[0]);
+        console.log(accounts[0]);
+        localStorage.setItem("wallet", accounts[0]);
+      } catch (err) {
+        console.error("Error:", err);
+      }
+    } else {
+      console.log("MetaMask not detected");
+    }
+  };
   //gsap
   useGSAP(() => {
     const tl = gsap.timeline();
@@ -37,6 +69,14 @@ const Hero = () => {
       }
     );
   });
+
+  const createProfile = () => {
+    if (wallet) {
+      navigate("/fam");
+    } else {
+      requestAccount();
+    }
+  };
   return (
     <div className="hero">
       <div className="main-txt">
@@ -64,7 +104,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <button onClick={() => console.log('hey')} className="create-btn">
+      <button onClick={() => createProfile()} className="create-btn">
         Create Profile
       </button>
     </div>
