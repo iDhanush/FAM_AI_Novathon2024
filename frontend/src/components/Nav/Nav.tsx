@@ -1,8 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Nav.scss";
+import { useState, useEffect } from "react";
 
 const Nav = () => {
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [provider, setProvider] = useState(null);
+
+  useEffect(() => {
+    if (window.ethereum) {
+      setProvider(window.ethereum);
+    }
+  }, []);
+
+  const requestAccount = async () => {
+    if (provider) {
+      try {
+        const accounts = await provider.request({
+          method: "eth_requestAccounts",
+        });
+        setWalletAddress(accounts[0]);
+        // setWallet(accounts[0]);
+        console.log(accounts[0]);
+        localStorage.setItem("wallet", accounts[0]);
+      } catch (err) {
+        console.error("Error:", err);
+      }
+    } else {
+      console.log("MetaMask not detected");
+    }
+  };
   return (
     <div className="nav-container">
       <div className="nav-left-container">
@@ -29,9 +56,10 @@ const Nav = () => {
         </div>
       </div>
       <div className="nav-right-container">
-        <Link to="/login" className="login-btn">
+        <button onClick={() => requestAccount()} className="login-btn">
+
           Login
-        </Link>
+        </button>
       </div>
     </div>
   );
