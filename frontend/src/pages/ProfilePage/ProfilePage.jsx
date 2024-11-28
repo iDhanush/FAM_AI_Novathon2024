@@ -5,11 +5,14 @@ import GIRL from "../../assets/images/female.svg";
 import ImageUploader from "../../components/ImageUpload/ImageUpload";
 import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
+import ChatComponent from "../../components/ChatUI/Chatui";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [chatPopup, setChatPopup] = useState(false);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -91,7 +94,7 @@ const ProfilePage = () => {
         {previewImage && (
           <motion.div
             className="pre-img"
-            initial={{ scale: 0, rotate: "0deg" }}
+            initial={{ scale: 0.4, rotate: "0deg" }}
             animate={{ scale: 1, rotate: "0deg" }}
             transition={{
               duration: 0.5,
@@ -137,7 +140,9 @@ const ProfilePage = () => {
           </svg>
           {selectedImage ? "Upload" : "Select Document"}
         </div>
-        <div className="chat-btn">
+        <div className="chat-btn"
+        onClick={()=>setChatPopup(!chatPopup)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={24}
@@ -159,6 +164,9 @@ const ProfilePage = () => {
           </svg>
         </div>
       </div>
+      {chatPopup && (
+        <ChatComponent chatPopup={chatPopup} setChatPopup={setChatPopup} />
+      )}
     </div>
   );
 };
