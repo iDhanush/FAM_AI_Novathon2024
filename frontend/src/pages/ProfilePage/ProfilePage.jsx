@@ -4,6 +4,7 @@ import "./ProfilePage.scss";
 
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
+import ImageUploader from "../../components/ImageUpload/ImageUpload";
 
 const ProfilePage = () => {
   return (
@@ -82,6 +83,7 @@ const ProfilePage = () => {
           </svg>
         </div>
       </div>
+      {/* <ImageUploader /> */}
     </div>
   );
 };
