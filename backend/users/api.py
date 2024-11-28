@@ -38,10 +38,10 @@ async def create_profile(profile_data: ProfileData, address: str = Depends(get_a
 
 @user_router.post("/delete_profile")
 async def create_profile(profile_uid: ProfileUID, address=Depends(get_address)):
-    await Var.db.delete_profile(address, profile_uid)
+    await Var.db.delete_profile(address, profile_uid.prfid)
     return {'success': True}
 
 
-@user_router.post("/get_profile")
+@user_router.post("/get_profiles")
 async def get_profiles(address=Depends(get_address)):
     return await Var.db.get_profiles(address)
