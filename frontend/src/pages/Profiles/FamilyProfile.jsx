@@ -13,10 +13,12 @@ const FamilyProfile = () => {
   const { wallet, setWallet } = useStore();
   const [popup, setPopup] = useState(false);
   const [profiles, setProfiles] = useState(null);
+  const [trigger, setTrigger] = useState(false);
 
   //to delete profile
   const deleteProfileClick = async (prfid) => {
     const result = await deleteProfile(wallet, prfid);
+    setTrigger(!trigger);
   };
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const FamilyProfile = () => {
     };
 
     fetchProfiles();
-  }, [wallet, popup]);
+  }, [wallet, popup, trigger]);
 
   return (
     <div className="family-page">
