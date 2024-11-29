@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 import ChatComponent from "../../components/ChatUI/Chatui";
 import toast from "react-hot-toast";
 import { baseUrl } from "../../constants";
-import { getProfileData } from "../../utils/utils";
+import { fetchDocuments, getProfileData } from "../../utils/utils";
 import { useStore } from "../../context/StoreContext";
 import Loader from "../../components/Loader/Loader";
 
@@ -23,6 +23,7 @@ const ProfilePage = () => {
 
   const [chatPopup, setChatPopup] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [history, setHistory] = useState(null);
 
   //get profile
   useEffect(() => {
@@ -38,6 +39,20 @@ const ProfilePage = () => {
 
     fetchProfile();
   }, [wallet]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const result = await fetchDocuments(wallet, uid);
+        setHistory(result);
+        console.log(result);
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -128,10 +143,17 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className="upload-history">
-          <div className="upload-card">
-            <div className="upload-img"></div>
-            <div className="short-dec">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, quod!</div>
-          </div>
+          {history?.map((item) => (
+            <div className="upload-card">
+              <img 
+              src={`${baseUrl}/assets/${item?.filename}`}
+              className="upload-img"></img>
+              <div className="short-dec">
+                {item?.inferences.slice(0, 200) + "..."}
+                
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <div className="uploader-wrapper">

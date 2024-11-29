@@ -9,7 +9,7 @@
 
 .profile-sec {
   max-width: 800px;
-  width: 800px;
+  width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -46,20 +46,20 @@
   margin-top: 100px;
 }
 
-.pre-img img{
+.pre-img img {
   min-width: 340px;
   min-height: 200px;
   border-radius: 10px;
 }
 
-.upload-history{
+.upload-history {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   margin-top: 20px;
 }
 
-.upload-card{
+.upload-card {
   width: 300px;
   min-height: 200px;
   padding: 10px;
@@ -74,7 +74,7 @@
   cursor: pointer;
 }
 
-.upload-img{
+.upload-img {
   width: 100%;
   min-height: 150px;
   background-color: #ececec;

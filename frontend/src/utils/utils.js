@@ -20,11 +20,11 @@ export const createAcc = async (wallet) => {
 
     const result = await response.json();
     console.log("Acc created:", result);
-    toast.success("Account created 💪🏻")
+    toast.success("Account created 💪🏻");
     return result;
   } catch (error) {
     console.error("Acc error:", error);
-    toast.error("Can't create an account🙂")
+    toast.error("Can't create an account🙂");
   }
 };
 
@@ -87,7 +87,7 @@ export const getProfiles = async (wallet) => {
 };
 
 // get profile data
-export const getProfileData = async (wallet,prfid) => {
+export const getProfileData = async (wallet, prfid) => {
   try {
     const response = await fetch(`${baseUrl}/user/get_profile?prfid=${prfid}`, {
       method: "GET",
@@ -112,32 +112,59 @@ export const getProfileData = async (wallet,prfid) => {
   }
 };
 
-
 //delete profile
 export const deleteProfile = async (wallet, prfid) => {
-    try {
-      const response = await fetch(`${baseUrl}/user/delete_profile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer your-auth-token",
-          "ngrok-skip-browser-warning": "69420",
-          address: wallet,
-        },
-        body: JSON.stringify({
-          prfid:prfid
-        }),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.msg || "Acc failed to create");
-      }
-  
-      const result = await response.json();
-      console.log("profile deleted:", result);
-      return result;
-    } catch (error) {
-      console.error("deletion error:", error);
+  try {
+    const response = await fetch(`${baseUrl}/user/delete_profile`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer your-auth-token",
+        "ngrok-skip-browser-warning": "69420",
+        address: wallet,
+      },
+      body: JSON.stringify({
+        prfid: prfid,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.msg || "Acc failed to create");
     }
-  };
+
+    const result = await response.json();
+    console.log("profile deleted:", result);
+    return result;
+  } catch (error) {
+    console.error("deletion error:", error);
+  }
+};
+
+//delete profile
+export const fetchDocuments = async (wallet, prfid) => {
+  const url = new URL(`${baseUrl}/document/list_documents`);
+  url.searchParams.append("prfid", prfid);
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer your-auth-token",
+        "ngrok-skip-browser-warning": "69420",
+        address: wallet,
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.msg || "Acc failed to create");
+    }
+
+    const result = await response.json();
+    console.log("profile deleted:", result);
+    return result;
+  } catch (error) {
+    console.error("deletion error:", error);
+  }
+};
