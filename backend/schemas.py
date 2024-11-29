@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 
 from pydantic import BaseModel
 
@@ -26,3 +26,11 @@ class DocData(BaseModel):
 
     address: Union[str, None] = None
     prfid: Union[str, None] = None
+
+
+class ChatData(BaseModel):
+    prfid: str
+    prompt: str
+    history: List
+
+
