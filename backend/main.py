@@ -15,7 +15,7 @@ app.include_router(bchain_router)
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 # Get your authtoken from https://dashboard.ngrok.com/get-started/your-authtoken
-auth_token = "2pUW2VxHEwxbxL3YM2YeJY3RIu2_31fXoDAHaH3rF2WpBPRuz"
+auth_token = "2pVo1Jfcx0mc61PMALqsa83LFgn_SZBMbJNPYUrgALwjyxoc"
 ngrok.set_auth_token(auth_token)
 ngrok_tunnel = ngrok.connect(8000, hostname='thoroughly-lasting-ladybug.ngrok-free.app')
 print('Public URL:', ngrok_tunnel.public_url)

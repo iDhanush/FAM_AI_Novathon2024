@@ -14,6 +14,5 @@ def get_llmware_response(prompt, context):
     if not res:
         return False
     print(res)
-    res = res.get('response')
     llm_response = res['llm_response']
     return llm_response

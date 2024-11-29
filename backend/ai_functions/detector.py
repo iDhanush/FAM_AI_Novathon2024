@@ -1,7 +1,7 @@
 from tensorflow.keras.models import load_model
 import cv2 as cv
 import imutils
-# model = load_model('ai_functions/brain_tumor_detector.h5')
+model = load_model('ai_functions/brain_tumor_detector.h5')
 
 
 
