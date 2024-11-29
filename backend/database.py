@@ -23,8 +23,17 @@ class FamAIDataBase:
     async def delete_profile(self, address: str, prfid: str):
         await self.prfDB.delete_one({'address': address, 'prfid': prfid})
 
+    async def get_profile(self, address: str, prfid: str):
+        return await self.prfDB.find_one({'address': address, 'prfid': prfid}, {'_id': 0})
+
     async def get_profiles(self, address: str):
         return await self.prfDB.find({'address': address}, {'_id': 0}).to_list(None)
 
     async def add_document(self, doc_data: DocData):
         return await self.docDB.insert_one(doc_data.model_dump())
+
+    async def get_documents(self, address: str, prfid: str):
+        return await self.docDB.find({'address': address, 'prfid': prfid}, {'_id': 0}).to_list(None)
+
+    async def delete_document(self, address: str, prfid: str, filename: str):
+        await self.docDB.delete_one({'address': address, 'prfid': prfid, 'filename': filename})
