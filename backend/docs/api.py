@@ -58,3 +58,8 @@ async def upload_file(file: UploadFile, prfid: str, address=Depends(get_address)
 @doc_router.post("/list_documents")
 async def list_documents(prfid: str, address=Depends(get_address)):
     return await Var.db.get_documents(address, prfid)
+
+@doc_router.post("/delete_document")
+async def delete_document(filename: str, prfid: str, address=Depends(get_address)):
+    return await Var.db.delete_document(address, prfid, filename)
+
