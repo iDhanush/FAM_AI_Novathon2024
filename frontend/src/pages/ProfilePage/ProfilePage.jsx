@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { baseUrl } from "../../constants";
 import { getProfileData } from "../../utils/utils";
 import { useStore } from "../../context/StoreContext";
+import Loader from "../../components/Loader/Loader";
 
 const ProfilePage = () => {
   const { wallet, setWallet } = useStore();
@@ -21,6 +22,7 @@ const ProfilePage = () => {
   const fileInputRef = useRef(null);
 
   const [chatPopup, setChatPopup] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   //get profile
   useEffect(() => {
@@ -46,6 +48,7 @@ const ProfilePage = () => {
   };
 
   const uploadImage = async () => {
+    setLoader(true);
     if (!selectedImage) return;
 
     const formData = new FormData();
@@ -79,7 +82,9 @@ const ProfilePage = () => {
       setSelectedImage(null);
       setPreviewImage(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
+      setLoader(false);
     } catch (error) {
+      setLoader(false);
       console.error("Upload error:", error);
       toast.error("I can't upload it 🙂");
     }
@@ -140,11 +145,15 @@ const ProfilePage = () => {
               duration: 0.5,
             }}
           >
-            <img
-              src={previewImage}
-              alt="Preview"
-              style={{ maxWidth: "200px", maxHeight: "200px" }}
-            />
+            {loader ? (
+              <Loader />
+            ) : (
+              <img
+                src={previewImage}
+                alt="Preview"
+                style={{ maxWidth: "200px", maxHeight: "200px" }}
+              />
+            )}
           </motion.div>
         )}
       </div>
