@@ -127,6 +127,12 @@ const ProfilePage = () => {
             <div className="tabb">{profile?.blood}</div>
           </div>
         </div>
+        <div className="upload-history">
+          <div className="upload-card">
+            <div className="upload-img"></div>
+            <div className="short-dec">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, quod!</div>
+          </div>
+        </div>
       </div>
       <div className="uploader-wrapper">
         <input
