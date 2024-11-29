@@ -35,4 +35,4 @@ async def scorer(prfid: str, address=Depends(get_address)):
     response = response.split('<|eot_id|>')[0]
     print(response)
     response = json.loads(response)
-    return
+    return response
