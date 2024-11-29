@@ -1,5 +1,6 @@
 import nest_asyncio
 from starlette.staticfiles import StaticFiles
+from blockchain.api import bchain_router
 from chats.api import chats_router
 from server import app
 from docs.api import doc_router
@@ -9,6 +10,7 @@ from pyngrok import ngrok
 app.include_router(user_router)
 app.include_router(doc_router)
 app.include_router(chats_router)
+app.include_router(bchain_router)
 
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 

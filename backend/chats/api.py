@@ -27,7 +27,7 @@ async def chat(chat_data: ChatData, address=Depends(get_address)):
 @chats_router.post('/score')
 async def scorer(prfid: str, address=Depends(get_address)):
     context = (
-        f'you are a medical rating bot for rating out of 10 based on a persons health and  give response as json {{"overallhealthscore": "$score"}}'
+        f'you are a medical rating bot for rating out of 100 based on a persons health and  give response as json {{"overallhealthscore": "$score"}}'
         f'{await get_context(address, prfid)}')
     response = get_llmware_response(
         'GIVE A CUMULATIVE score based on health and documents IN FORMAT  give response as json {"overallhealthscore": "$score"} nothing else otherthan the json should be sent',
