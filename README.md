@@ -85,7 +85,11 @@ Fam.ai is a next-generation **AI-powered medical information management system**
    ```bash
    brownie compile
    ```
-7. Return to the backend folder and start the backend server:  
+7. Add the custom Polygon network:  
+   ```bash
+   brownie networks add custom polygon host=https://rpc.cardona.zkevm-rpc.com chainid=2442
+   ```
+8. Return to the backend folder and start the backend server:  
    ```bash
    cd ..
    python main.py
@@ -118,4 +122,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
+## 🧑‍💻 **Team Members**
 
+We are **Team Lethimcode**, passionate about revolutionizing healthcare with the power of AI and blockchain. 🚀
