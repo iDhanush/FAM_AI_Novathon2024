@@ -4,6 +4,8 @@ import { useStore } from "../../context/StoreContext";
 
 import { motion } from "motion/react";
 import { createIndiProfile } from "../../utils/utils";
+import Loader from "../Loader/Loader";
+import toast from "react-hot-toast";
 const Form = ({ popup, setPopup }) => {
   const { wallet, setWallet } = useStore();
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ const Form = ({ popup, setPopup }) => {
     gender: "",
     bloodGroup: "",
   });
+  const [loader,setLoader]=useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,14 +26,22 @@ const Form = ({ popup, setPopup }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true)
     const result = await createIndiProfile(wallet, formData);
     if (result) {
+      setLoader(false);
       setPopup(!popup);
+    }else{
+      setLoader(false);
+      toast.error('Error occured');
     }
   };
 
   return (
     <motion.div className="form-page">
+      {
+        loader&&(<div className="load-page"><Loader/></div>)
+      }
       <div className="close-btn" onClick={() => setPopup(!popup)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
