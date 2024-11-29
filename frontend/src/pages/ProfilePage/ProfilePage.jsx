@@ -32,6 +32,7 @@ const ProfilePage = () => {
   const [sharepopup, setsharepopup] = useState(false);
   const [healthScore, setHealthScore] = useState("");
   const [healthLoader, setHealthLoader] = useState(false);
+  const [trigger,setTrigger]=useState(false);
 
   //get profile
   useEffect(() => {
@@ -48,6 +49,7 @@ const ProfilePage = () => {
     fetchProfile();
   }, [history]);
 
+  //get doc
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -60,7 +62,7 @@ const ProfilePage = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [trigger]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -106,6 +108,7 @@ const ProfilePage = () => {
       setPreviewImage(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
       setLoader(false);
+      setTrigger(!trigger)
     } catch (error) {
       setLoader(false);
       console.error("Upload error:", error);
@@ -342,8 +345,8 @@ const ProfilePage = () => {
                   }}
                 >
                   <CircularProgressbar
-                    value={parseInt(healthScore) * 10}
-                    text={`${healthScore * 10}%`}
+                    value={parseInt(healthScore)}
+                    text={`${healthScore}%`}
                     width={100}
                     styles={buildStyles({
                       // Rotation of path and trail, in number of turns (0-1)

@@ -103,10 +103,10 @@ const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
       </div>
       <motion.div
         className="chat-container"
-        initial={{ scale: 0.3 }}
+        initial={{ scale: 0.4 }}
         animate={{ scale: 1 }}
         transition={{
-          duration: 0.3,
+          duration: 0.2,
         }}
       >
         <div className="messages-container">
