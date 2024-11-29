@@ -118,6 +118,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 🧑‍💻 **Team Members**
 
-We are **Team Lethimcode**, passionate about revolutionizing healthcare with the power of AI and blockchain. 🚀
