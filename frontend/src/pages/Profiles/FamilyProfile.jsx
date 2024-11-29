@@ -31,7 +31,7 @@ const FamilyProfile = () => {
     };
 
     fetchProfiles();
-  }, [wallet, popup, deleteProfileClick]);
+  }, [wallet, popup]);
 
   return (
     <div className="family-page">

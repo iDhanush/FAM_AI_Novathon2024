@@ -1,4 +1,5 @@
 import { baseUrl } from "../constants";
+import toast from "react-hot-toast";
 
 export const createAcc = async (wallet) => {
   try {
@@ -19,9 +20,11 @@ export const createAcc = async (wallet) => {
 
     const result = await response.json();
     console.log("Acc created:", result);
+    toast.success("Account created 💪🏻")
     return result;
   } catch (error) {
     console.error("Acc error:", error);
+    toast.error("Can't create an account🙂")
   }
 };
 
