@@ -1,8 +1,16 @@
+
 # Fam.ai - Gen AI-Based Medical Information Management System
 
 ### Project by **Team Lethimcode**
 
 Fam.ai is a next-generation **AI-powered medical information management system**, secured using **blockchain technology**. The project utilizes **LLMware** and **RAG (Retrieval-Augmented Generation)** to enable seamless communication between users and the platform, ensuring efficient data storage, retrieval, and management.
+
+---
+
+<div align="center">
+  <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum Logo" width="100" height="100"/>
+  <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="Polygon Logo" width="100" height="100"/>
+</div>
 
 ---
 
