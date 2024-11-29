@@ -4,38 +4,129 @@ import "./Nav.scss";
 import { useState, useEffect } from "react";
 import { useStore } from "../../context/StoreContext";
 
+import POLLY from "../../assets/images/pollylo.svg";
+import ETH from "../../assets/images/eth.png";
+import ETHLOGO from "../../assets/images/ethlogo.svg";
+
 const Nav = () => {
   const { wallet, setWallet } = useStore();
   const [walletAddress, setWalletAddress] = useState(null);
   const [provider, setProvider] = useState(null);
 
+  const [loginPopup, setLoginPopup] = useState(false);
+  const [conType, setConType] = useState(
+    JSON.parse(localStorage.getItem("con"))
+  );
+
   useEffect(() => {
     if (window.ethereum) {
       setProvider(window.ethereum);
     }
+    setConType(JSON.parse(localStorage.getItem("con")));
   }, []);
+  console.log(conType);
 
-  const requestAccount = async () => {
-    if (provider) {
-      try {
-        const accounts = await provider.request({
-          method: "eth_requestAccounts",
-        });
-        setWalletAddress(accounts[0]);
-        setWallet(accounts[0]);
-        console.log(accounts[0]);
-        localStorage.setItem("wallet", accounts[0]);
-      } catch (err) {
-        console.error("Error:", err);
+  const pollyConnect = () => {
+    const requestAccount = async () => {
+      if (provider) {
+        try {
+          const accounts = await provider.request({
+            method: "eth_requestAccounts",
+          });
+          setWalletAddress(accounts[0]);
+          setWallet(accounts[0]);
+          console.log(accounts[0]);
+          localStorage.setItem("wallet", accounts[0]);
+          setLoginPopup(false);
+          setConType("polly");
+          localStorage.setItem("con", JSON.stringify("polly"));
+        } catch (err) {
+          console.error("Error:", err);
+          setLoginPopup(false);
+        }
+      } else {
+        console.log("MetaMask not detected");
       }
-    } else {
-      console.log("MetaMask not detected");
-    }
+    };
+    requestAccount();
   };
+
+  const sepoliaConnect = () => {
+    const requestAccount = async () => {
+      if (provider) {
+        try {
+          // Get the current network
+          const network = await provider.request({ method: "eth_chainId" });
+
+          // Check if the network is Sepolia
+          if (network !== "0xaa36a7") {
+            // Sepolia chain ID in hexadecimal
+            console.log("Switching to Sepolia network...");
+            try {
+              await provider.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: "0xaa36a7" }], // Sepolia chain ID
+              });
+            } catch (switchError) {
+              // If the network is not available in MetaMask, add it
+              if (switchError.code === 4902) {
+                try {
+                  await provider.request({
+                    method: "wallet_addEthereumChain",
+                    params: [
+                      {
+                        chainId: "0xaa36a7",
+                        chainName: "Sepolia Testnet",
+                        nativeCurrency: {
+                          name: "Ethereum",
+                          symbol: "ETH",
+                          decimals: 18,
+                        },
+                        rpcUrls: ["https://rpc.sepolia.org"],
+                        blockExplorerUrls: ["https://sepolia.etherscan.io"],
+                      },
+                    ],
+                  });
+                  setLoginPopup(false);
+                } catch (addError) {
+                  console.error("Failed to add Sepolia network:", addError);
+                  setLoginPopup(false);
+                  return;
+                }
+              } else {
+                console.error("Failed to switch network:", switchError);
+                return;
+              }
+            }
+          }
+
+          // Request accounts
+          const accounts = await provider.request({
+            method: "eth_requestAccounts",
+          });
+          setWalletAddress(accounts[0]);
+          setWallet(accounts[0]);
+          console.log("Connected account:", accounts[0]);
+          localStorage.setItem("wallet", accounts[0]);
+          setLoginPopup(false);
+          setConType("eth");
+          localStorage.setItem("con", JSON.stringify("eth"));
+        } catch (err) {
+          console.error("Error connecting to Sepolia:", err);
+          setLoginPopup(false);
+        }
+      } else {
+        console.log("MetaMask not detected");
+      }
+    };
+
+    requestAccount();
+  };
+
   return (
     <div className="nav-container">
       <div className="nav-left-container">
-        <Link to='/' className="logo">
+        <Link to="/" className="logo">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={32}
@@ -58,20 +149,34 @@ const Nav = () => {
         </Link>
       </div>
       <div className="nav-right-container">
-        <button onClick={() => requestAccount()} className="login-btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={26}
-            height={24}
-            fill="none"
-          >
-            <path
-              fill="#fff"
-              d="M26 12.478v6.207a2.4 2.4 0 0 1-.286 1.103 2.2 2.2 0 0 1-.758.812l-5.077 3.097a1.95 1.95 0 0 1-1.04.303 1.95 1.95 0 0 1-1.04-.303L12.723 20.6a2.2 2.2 0 0 1-.759-.812 2.4 2.4 0 0 1-.286-1.104v-1.739l2.598-1.6v3.03l4.55 2.797 4.547-2.797v-5.578L18.826 10 8.17 16.536c-.317.19-.676.291-1.04.291-.365 0-.724-.1-1.04-.29l-5.077-3.11a2.2 2.2 0 0 1-.743-.814A2.3 2.3 0 0 1 0 11.518V5.312c.002-.387.098-.767.28-1.103a2.2 2.2 0 0 1 .759-.812L6.115.3A1.96 1.96 0 0 1 7.154 0c.365 0 .724.103 1.039.3l5.076 3.097c.315.197.576.476.759.812.182.335.28.715.283 1.103V7.05l-2.616 1.588v-3.01l-4.55-2.796L2.598 5.63v5.57l4.547 2.797L17.81 7.46c.317-.19.676-.29 1.04-.29.365 0 .723.1 1.04.29l5.074 3.11c.313.197.572.476.752.81s.276.713.278 1.098z"
-            />
-          </svg>
+        <button onClick={() => setLoginPopup(true)} className="login-btn">
+          {conType == "polly" && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={26}
+              height={24}
+              fill="none"
+            >
+              <path
+                fill="#fff"
+                d="M26 12.478v6.207a2.4 2.4 0 0 1-.286 1.103 2.2 2.2 0 0 1-.758.812l-5.077 3.097a1.95 1.95 0 0 1-1.04.303 1.95 1.95 0 0 1-1.04-.303L12.723 20.6a2.2 2.2 0 0 1-.759-.812 2.4 2.4 0 0 1-.286-1.104v-1.739l2.598-1.6v3.03l4.55 2.797 4.547-2.797v-5.578L18.826 10 8.17 16.536c-.317.19-.676.291-1.04.291-.365 0-.724-.1-1.04-.29l-5.077-3.11a2.2 2.2 0 0 1-.743-.814A2.3 2.3 0 0 1 0 11.518V5.312c.002-.387.098-.767.28-1.103a2.2 2.2 0 0 1 .759-.812L6.115.3A1.96 1.96 0 0 1 7.154 0c.365 0 .724.103 1.039.3l5.076 3.097c.315.197.576.476.759.812.182.335.28.715.283 1.103V7.05l-2.616 1.588v-3.01l-4.55-2.796L2.598 5.63v5.57l4.547 2.797L17.81 7.46c.317-.19.676-.29 1.04-.29.365 0 .723.1 1.04.29l5.074 3.11c.313.197.572.476.752.81s.276.713.278 1.098z"
+              />
+            </svg>
+          )}
+          {conType == "eth" && <img src={ETHLOGO} alt="" />}
+
           {wallet ? `${wallet.substring(0, 8)}xxxxx` : "Login"}
         </button>
+        {loginPopup && (
+          <div className="wallets">
+            <div className="wallet-btn" onClick={() => pollyConnect()}>
+              <img src={POLLY} alt="" />
+            </div>
+            <div className="wallet-btn" onClick={() => sepoliaConnect()}>
+              <img src={ETH} alt="" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
