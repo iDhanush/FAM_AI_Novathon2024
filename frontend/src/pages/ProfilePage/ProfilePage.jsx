@@ -2,6 +2,7 @@ import "./ProfilePage.scss";
 
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
+import QR from '../../assets/images/qr.png'
 
 import { useParams } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
@@ -24,6 +25,8 @@ const ProfilePage = () => {
   const [chatPopup, setChatPopup] = useState(false);
   const [loader, setLoader] = useState(false);
   const [history, setHistory] = useState(null);
+  const [popup, setPopup] = useState(false);
+  const [sharepopup,setsharepopup]=useState(false);
 
   //get profile
   useEffect(() => {
@@ -143,8 +146,8 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className="btns">
-          <div className="health-btn">Check Health score</div>
-          <div className="share-btn">
+          <div className="health-btn" onClick={() => setPopup(!popup)}>Check Health score</div>
+          <div className="share-btn" onClick={() => setsharepopup(!sharepopup)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={24}
@@ -269,6 +272,81 @@ const ProfilePage = () => {
           uid={uid}
           setChatPopup={setChatPopup}
         />
+      )}
+      {popup && (
+        <div className="popup-wrapper">
+          <div className="close-btn" onClick={() => setPopup(!popup)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={67}
+              height={67}
+              fill="none"
+            >
+              <rect
+                width={66}
+                height={66}
+                x={0.5}
+                y={0.5}
+                fill="#fff"
+                rx={33}
+              />
+              <rect
+                width={66}
+                height={66}
+                x={0.5}
+                y={0.5}
+                stroke="#E3E3E5"
+                rx={33}
+              />
+              <path
+                fill="#4F4F4F"
+                d="m34 31.5 8-8 2 1.833-8.167 8.167L44 41.667 41.667 44 33.5 35.833 25.333 44 23 41.667l8.167-8.167L23 25.333 25.333 23z"
+              />
+            </svg>
+          </div>
+          <div className="popup-ui">
+            <h3>Health Score</h3>
+          </div>
+        </div>
+      )}
+      {sharepopup && (
+        <div className="popup-wrapper">
+          <div className="close-btn" onClick={() => setsharepopup(!sharepopup)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={67}
+              height={67}
+              fill="none"
+            >
+              <rect
+                width={66}
+                height={66}
+                x={0.5}
+                y={0.5}
+                fill="#fff"
+                rx={33}
+              />
+              <rect
+                width={66}
+                height={66}
+                x={0.5}
+                y={0.5}
+                stroke="#E3E3E5"
+                rx={33}
+              />
+              <path
+                fill="#4F4F4F"
+                d="m34 31.5 8-8 2 1.833-8.167 8.167L44 41.667 41.667 44 33.5 35.833 25.333 44 23 41.667l8.167-8.167L23 25.333 25.333 23z"
+              />
+            </svg>
+          </div>
+          <div className="popup-ui">
+            <h3>Scan QR</h3>
+            <div className="cente-ui">
+              <img width="240px" src={QR} alt="" />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
