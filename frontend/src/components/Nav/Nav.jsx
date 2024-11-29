@@ -14,13 +14,17 @@ const Nav = () => {
   const [provider, setProvider] = useState(null);
 
   const [loginPopup, setLoginPopup] = useState(false);
-  const [conType, setConType] = useState("");
+  const [conType, setConType] = useState(
+    JSON.parse(localStorage.getItem("con"))
+  );
 
   useEffect(() => {
     if (window.ethereum) {
       setProvider(window.ethereum);
     }
+    setConType(JSON.parse(localStorage.getItem("con")));
   }, []);
+  console.log(conType);
 
   const pollyConnect = () => {
     const requestAccount = async () => {
@@ -35,6 +39,7 @@ const Nav = () => {
           localStorage.setItem("wallet", accounts[0]);
           setLoginPopup(false);
           setConType("polly");
+          localStorage.setItem("con", JSON.stringify("polly"));
         } catch (err) {
           console.error("Error:", err);
           setLoginPopup(false);
@@ -83,7 +88,6 @@ const Nav = () => {
                     ],
                   });
                   setLoginPopup(false);
-                  setConType("eth");
                 } catch (addError) {
                   console.error("Failed to add Sepolia network:", addError);
                   setLoginPopup(false);
@@ -105,6 +109,8 @@ const Nav = () => {
           console.log("Connected account:", accounts[0]);
           localStorage.setItem("wallet", accounts[0]);
           setLoginPopup(false);
+          setConType("eth");
+          localStorage.setItem("con", JSON.stringify("eth"));
         } catch (err) {
           console.error("Error connecting to Sepolia:", err);
           setLoginPopup(false);
