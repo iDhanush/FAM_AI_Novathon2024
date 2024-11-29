@@ -1,6 +1,8 @@
 .profile-page {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 20px;
 }
@@ -26,4 +28,26 @@
 .avatar {
   width: 100px;
   height: 100px;
+}
+
+.uploader-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 160px;
+}
+
+.pre-img {
+  padding: 10px;
+  background-color: var(--ui-background);
+  box-shadow: -1px -2px 37px 0px rgba(207, 207, 207, 1);
+  border-radius: 20px;
+  margin-top: 100px;
+}
+
+.pre-img img{
+  min-width: 340px;
+  min-height: 200px;
+  border-radius: 10px;
 }

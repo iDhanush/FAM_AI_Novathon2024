@@ -49,12 +49,22 @@ const ProfilePage = () => {
     if (!selectedImage) return;
 
     const formData = new FormData();
-    formData.append("image", selectedImage);
+    formData.append("file", selectedImage);
 
     try {
-      const response = await fetch(`${baseUrl}`, {
+      // Construct the URL with the query parameter
+      const url = new URL(`${baseUrl}/document/upload`);
+      url.searchParams.append("prfid", uid); // Add prfid as a query parameter
+
+      const response = await fetch(url, {
         method: "POST",
-        body: formData,
+        headers: {
+          // "Content-Type": "multipart/formdatas",
+          Authorization: "Bearer your-auth-token",
+          "ngrok-skip-browser-warning": "69420",
+          Address: wallet,
+        },
+        body: formData, // Send the form data in the request body
       });
 
       if (!response.ok) {
