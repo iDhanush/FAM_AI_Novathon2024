@@ -27,7 +27,7 @@ async def get_user(address: str = Depends(get_address)):
 
 @user_router.post("/create_profile")
 async def create_profile(profile_data: ProfileData, address: str = Depends(get_address)):
-    user = await Var.db.get_user(profile_data.address)
+    user = await Var.db.get_user(address)
     if not user:
         raise HTTPException(status_code=400, detail="User does not exist")
     profile_data.address = address
@@ -45,3 +45,8 @@ async def create_profile(profile_uid: ProfileUID, address=Depends(get_address)):
 @user_router.post("/get_profiles")
 async def get_profiles(address=Depends(get_address)):
     return await Var.db.get_profiles(address)
+
+
+@user_router.get("/get_profile")
+async def fetch_profile(prfid: str, address=Depends(get_address)):
+    return await Var.db.get_profile(address, prfid)
