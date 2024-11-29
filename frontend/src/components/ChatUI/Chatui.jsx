@@ -4,6 +4,8 @@ import { motion } from "motion/react";
 import { baseUrl } from "../../constants";
 import { useStore } from "../../context/StoreContext";
 
+import { ThreeDots } from "react-loader-spinner";
+
 const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
   const { wallet, setWallet } = useStore();
   const [messages, setMessages] = useState([
@@ -11,6 +13,8 @@ const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const messagesEndRef = useRef(null);
+
+  const [chatLoad, setChatLoad] = useState(false);
 
   // Function to handle sending the message
   const handleSendMessage = async () => {
@@ -23,7 +27,7 @@ const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
       sender: "user",
     };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-
+    setChatLoad(true);
     try {
       // Call the external API with the user's input
       const response = await fetch(`${baseUrl}/chat/chat`, {
@@ -49,7 +53,9 @@ const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
         sender: "bot",
       };
       setMessages((prevMessages) => [...prevMessages, newBotMessage]);
+      setChatLoad(false);
     } catch (error) {
+      setChatLoad(false);
       console.error("Error:", error);
       const errorMessage = {
         id: messages.length + 2,
@@ -110,6 +116,20 @@ const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
             </div>
           ))}
           <div ref={messagesEndRef} />
+          {chatLoad && (
+            <div className="chat-load">
+              <ThreeDots
+                visible={true}
+                height="30"
+                width="30"
+                color="#000"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          )}
         </div>
 
         <div className="input-container">
