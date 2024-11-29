@@ -2,7 +2,7 @@ import "./ProfilePage.scss";
 
 import BOY from "../../assets/images/male.svg";
 import GIRL from "../../assets/images/female.svg";
-import QR from '../../assets/images/qr.png'
+import QR from "../../assets/images/qr.png";
 
 import { useParams } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
@@ -10,9 +10,12 @@ import { motion } from "motion/react";
 import ChatComponent from "../../components/ChatUI/Chatui";
 import toast from "react-hot-toast";
 import { baseUrl } from "../../constants";
-import { fetchDocuments, getProfileData } from "../../utils/utils";
+import { fetchDocuments, fetchScore, getProfileData } from "../../utils/utils";
 import { useStore } from "../../context/StoreContext";
 import Loader from "../../components/Loader/Loader";
+
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const ProfilePage = () => {
   const { wallet, setWallet } = useStore();
@@ -26,7 +29,9 @@ const ProfilePage = () => {
   const [loader, setLoader] = useState(false);
   const [history, setHistory] = useState(null);
   const [popup, setPopup] = useState(false);
-  const [sharepopup,setsharepopup]=useState(false);
+  const [sharepopup, setsharepopup] = useState(false);
+  const [healthScore, setHealthScore] = useState("");
+  const [healthLoader, setHealthLoader] = useState(false);
 
   //get profile
   useEffect(() => {
@@ -112,6 +117,18 @@ const ProfilePage = () => {
     fileInputRef.current.click();
   };
 
+  const fetchHealthScore = async () => {
+    setHealthLoader(true);
+    const result = await fetchScore(wallet, uid);
+    if (result) {
+      setHealthScore(result?.overallhealthscore);
+      setHealthLoader(false);
+    } else {
+      toast.error("Can't fetch health score 🙁");
+      setHealthLoader(false);
+    }
+  };
+
   return (
     <div className="profile-page">
       <div className="profile-sec">
@@ -146,7 +163,15 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className="btns">
-          <div className="health-btn" onClick={() => setPopup(!popup)}>Check Health score</div>
+          <div
+            className="health-btn"
+            onClick={() => {
+              setPopup(!popup);
+              fetchHealthScore();
+            }}
+          >
+            Check Health score
+          </div>
           <div className="share-btn" onClick={() => setsharepopup(!sharepopup)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -306,6 +331,41 @@ const ProfilePage = () => {
           </div>
           <div className="popup-ui">
             <h3>Health Score</h3>
+            {healthLoader ? (
+              <Loader />
+            ) : (
+              <div className="cente-ui">
+                <div
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                  }}
+                >
+                  <CircularProgressbar
+                    value={parseInt(healthScore) * 10}
+                    text={`${healthScore * 10}%`}
+                    width={100}
+                    styles={buildStyles({
+                      // Rotation of path and trail, in number of turns (0-1)
+                      rotation: 0.25,
+
+                      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                      strokeLinecap: "butt",
+
+                      // Text size
+                      textSize: "14px",
+                      pathTransitionDuration: 0.5,
+
+                      pathColor: "#000",
+                      textColor: "#000",
+                      // trailColor: "#3e98c7",
+                      // backgroundColor: "#000",
+                    })}
+                  />
+                </div>
+                ;
+              </div>
+            )}
           </div>
         </div>
       )}
