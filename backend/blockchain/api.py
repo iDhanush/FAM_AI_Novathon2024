@@ -11,11 +11,13 @@ from brownie.network.account import LocalAccount
 from brownie import project, network, accounts, Contract
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from global_vars import Var
+
 dotenv.load_dotenv()
 bchain_router = APIRouter(tags=['bchain'])
 
 p = project.load('blockchain')
-chain = int(input("Enter chain \n1 Polygon\n2 Etherium\n"))
+chain = int(input("Enter chain \n1 Polygon\n2 Etherium\n3 Continue Without Blockchain\n\nEnter your Choice:"))
 sepolia_nft = "https://sepolia.etherscan.io/nft/{}/{}"
 polygon_nft = "https://cardona-zkevm.polygonscan.com/nft/{}/{}"
 
@@ -23,14 +25,19 @@ if chain == 1:
     network.connect('polygon')
     nft_url = polygon_nft
     deploy_file = 'polygon_deployed_address.txt'
-else:
+elif chain == 2:
     network.connect('sepolia')
     nft_url = sepolia_nft
     deploy_file = 'sepolia_deployed_address.txt'
+elif chain == 3:
+    Var.use_blockchain = False
+else:
+    raise Exception("Invalid choice")
 
 SimpleCollectible = p.SimpleCollectible
 get_loaded_projects()[0].load_config()
 print(get_loaded_projects()[0])
+
 
 def get_account() -> LocalAccount:
     return accounts.add(os.environ.get('PRIVATE_KEY'))
@@ -61,15 +68,11 @@ account = get_account()
 
 class PostData(BaseModel):
     user_address: str
-    img_url:str
-    desc:str
+    img_url: str
+    desc: str
 
 
-
-
-
-
-@bchain_router.post('/mint_certificate')
+@bchain_router.post('/upload_to_blockchain')
 async def mint_certificate(post_data: PostData):
     # file_hash = file_to_sha256(f'assets/{post_data.file_uid}')
     client_address = post_data.user_address
@@ -80,8 +83,7 @@ async def mint_certificate(post_data: PostData):
         # "file_hash": file_hash,
         "attributes": [
             ""
-        ],
-        "info":"nl"
+        ]
     }
     json_uri = json.dumps(uri)
     tx = simple_collectible.createCollectible(json_uri, client_address,
@@ -101,7 +103,7 @@ async def mint_certificate(post_data: PostData):
     }
 
 
-@bchain_router.get('/cert/{user_address}')
+@bchain_router.get('/get_uploaded_docs/{user_address}')
 async def get_user_nfts(user_address: str):
     try:
         user_address = Web3.to_checksum_address(user_address)
@@ -127,7 +129,7 @@ async def get_user_nfts(user_address: str):
         return {"error": f"Error getting user NFTs: {str(e)}"}
 
 
-@bchain_router.get('/get_token_uri/{token_id}')
+@bchain_router.get('/get_document_meta/{token_id}')
 async def get_token_uri(token_id: int):
     try:
         if not simple_collectible:
