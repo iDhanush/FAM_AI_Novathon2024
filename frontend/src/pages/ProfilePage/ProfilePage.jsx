@@ -38,7 +38,7 @@ const ProfilePage = () => {
     };
 
     fetchProfile();
-  }, [wallet]);
+  }, [history]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -140,6 +140,14 @@ const ProfilePage = () => {
           <div className="data-tabs">
             <div className="tabb">{profile?.gender}</div>
             <div className="tabb">{profile?.blood}</div>
+          </div>
+        </div>
+        <div className="btns">
+          <div className="health-btn">
+            Check Health score
+          </div>
+          <div className="share-btn">
+            
           </div>
         </div>
         <div className="upload-history">
