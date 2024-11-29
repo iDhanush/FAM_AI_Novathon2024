@@ -240,7 +240,7 @@ const ProfilePage = () => {
         </div>
       </div>
       {chatPopup && (
-        <ChatComponent chatPopup={chatPopup} setChatPopup={setChatPopup} />
+        <ChatComponent chatPopup={chatPopup} uid={uid} setChatPopup={setChatPopup} />
       )}
     </div>
   );

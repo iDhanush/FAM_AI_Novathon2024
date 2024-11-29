@@ -1,38 +1,68 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatui.scss";
 import { motion } from "motion/react";
+import { baseUrl } from "../../constants";
+import { useStore } from "../../context/StoreContext";
 
-const ChatComponent = ({ chatPopup, setChatPopup }) => {
+const ChatComponent = ({ chatPopup, setChatPopup, uid }) => {
+  const { wallet, setWallet } = useStore();
   const [messages, setMessages] = useState([
     { id: 1, text: "Welcome! How can I help you today?", sender: "bot" },
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const messagesEndRef = useRef(null);
 
-  const handleSendMessage = () => {
+  // Function to handle sending the message
+  const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
+    // Add user message to chat
     const newUserMessage = {
       id: messages.length + 1,
       text: inputMessage,
       sender: "user",
     };
+    setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
-    const newBotMessage = {
-      id: messages.length + 2,
-      text: `Echo: ${inputMessage}`,
-      sender: "bot",
-    };
+    try {
+      // Call the external API with the user's input
+      const response = await fetch(`${baseUrl}/chat/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Address: wallet,
+        },
+        body: JSON.stringify({ prfid: uid, prompt: inputMessage, history: [] }),
+      });
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      newUserMessage,
-      newBotMessage,
-    ]);
+      // Handle the API response
+      if (!response.ok) {
+        throw new Error("Failed to fetch chat response");
+      }
+
+      const data = await response.json();
+
+      // Add bot response to chat
+      const newBotMessage = {
+        id: messages.length + 2,
+        text: data.res,
+        sender: "bot",
+      };
+      setMessages((prevMessages) => [...prevMessages, newBotMessage]);
+    } catch (error) {
+      console.error("Error:", error);
+      const errorMessage = {
+        id: messages.length + 2,
+        text: "Sorry, there was an error processing your request.",
+        sender: "bot",
+      };
+      setMessages((prevMessages) => [...prevMessages, errorMessage]);
+    }
 
     setInputMessage("");
   };
 
+  // Scroll to the latest message
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
